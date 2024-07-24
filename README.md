@@ -1,6 +1,6 @@
 # noeticws
 gazebo,c++,python,pytorch関連を触る人用のdockerfileです。
-#Dockerfileからイメージを作る
+#Dockerfileからイメージを作る。最後のピリオドのとおりカレントディレクトリのどっかーファイルを参照しているので、どっかーファイルがあるディレクトリに移動してからビルドしてください。
 $ docker build -t noeticimg .
 ＃イメージからコンテナを作る
 $ docker run --name noeticcon -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -it noeticimg
