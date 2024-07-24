@@ -5,7 +5,7 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # 必要なパッケージのインストール
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
     curl \
     gnupg2 \
     lsb-release \
@@ -17,10 +17,9 @@ RUN apt-get update && apt-get install -y \
     vim \
     python3-pip \
     python3-venv \
-    python3-catkin-tools \
     locales \
     sudo \
-    && apt-get clean \
+    && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
 # ロケールの設定
@@ -29,12 +28,15 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
+# catkin_toolsのインストール
+RUN pip3 install catkin_tools
+
 # ROS Noeticのセットアップ
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
     && curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - \
-    && apt-get update \
-    && apt-get install -y ros-noetic-desktop-full \
-    && apt-get clean \
+    && apt update \
+    && apt install -y ros-noetic-desktop-full \
+    && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
 # ROSの初期設定
@@ -44,19 +46,19 @@ RUN /bin/bash -c "source /opt/ros/noetic/setup.bash"
 # Gazeboのインストール
 RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" > /etc/apt/sources.list.d/gazebo-stable.list' \
     && wget https://packages.osrfoundation.org/gazebo.key -O - | apt-key add - \
-    && apt-get update \
-    && apt-get install -y gazebo11 \
-    && apt-get clean \
+    && apt update \
+    && apt install -y gazebo11 \
+    && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
 # ROSパッケージの依存関係をインストール
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
     python3-rosdep \
     python3-rosinstall \
     python3-rosinstall-generator \
     python3-wstool \
     build-essential \
-    && apt-get clean \
+    && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN rosdep init && rosdep update
@@ -78,4 +80,3 @@ WORKDIR /root/catkin_ws
 
 # エントリーポイントの設定
 CMD ["bash"]
-
