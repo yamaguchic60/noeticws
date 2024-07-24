@@ -6,3 +6,5 @@ $ docker build -t noeticimg .
 $ docker run --name noeticcon -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -it noeticimg
 ＃動作中のコンテナに入る
 $ docker exec -it noeticcon /bin/bash
+#docker psで出てこない（コンテナが停止中）のとき
+$ docker start noeticcon 
